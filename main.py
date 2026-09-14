@@ -31,10 +31,24 @@ class Bird:
             if self.frame >= len(self.image):
                 self.frame = 0
 
+    def gravity(self):
+        self.rect.y += 5
+
     def draw(self, screen):
         screen.blit(self.image[self.frame], (self.rect.x, self.rect.y))
 
+class Pipe:
+    def __init__(self, x, y, height, is_top):
+        self.image = pygame.image.load('pipe.png')
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+    def draw(self, screen):
+        screen.blit(self.image, (self.rect.x, self.rect.y))
+
 bird = Bird(100, height // 2)
+pipe = Pipe(500, 0, 300, True)
 
 while True:
     for event in pygame.event.get():
@@ -47,7 +61,9 @@ while True:
     if abs(ground_scroll) > 35:
         ground_scroll = 0
     bird.update()
+    bird.gravity()
     bird.draw(screen)
+    pipe.draw(screen)
     pygame.display.update()
     clock.tick(60)
 
