@@ -16,13 +16,23 @@ ground_img = pygame.transform.scale(pygame.image.load('ground.png'),(1400, 168))
 
 class Bird:
     def __init__(self, x, y):
-        self.image = pygame.image.load('bird1.png')
-        self.rect = self.image.get_rect()
+        self.image = [pygame.image.load('bird1.png'), pygame.image.load('bird2.png'), pygame.image.load('bird3.png')]
+        self.rect = self.image[0].get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.frame = 0
+        self.frame_count = 0
+
+    def update(self):
+        self.frame_count += 1
+        if self.frame_count >= 5:
+            self.frame_count = 0
+            self.frame += 1
+            if self.frame >= len(self.image):
+                self.frame = 0
 
     def draw(self, screen):
-        screen.blit(self.image, (self.rect.x, self.rect.y))
+        screen.blit(self.image[self.frame], (self.rect.x, self.rect.y))
 
 bird = Bird(100, height // 2)
 
@@ -36,6 +46,7 @@ while True:
     ground_scroll -= scroll_speed
     if abs(ground_scroll) > 35:
         ground_scroll = 0
+    bird.update()
     bird.draw(screen)
     pygame.display.update()
     clock.tick(60)
