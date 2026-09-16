@@ -56,6 +56,9 @@ class Pipe:
         self.rect2.x = x
         self.rect2.y = y
 
+    def update(self):
+        self.rect1.x -= scroll_speed
+        self.rect2.x -= scroll_speed
 
     def draw(self, screen):
         screen.blit(self.image1, (self.rect1.x, self.rect1.y))
@@ -83,6 +86,7 @@ while True:
     else:
         wait_time -= 1
     bird.draw(screen)
+    pipe.update()
     pipe.draw(screen)
     pygame.display.update()
     clock.tick(60)
