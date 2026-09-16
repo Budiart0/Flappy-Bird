@@ -31,8 +31,15 @@ class Bird:
             if self.frame >= len(self.image):
                 self.frame = 0
 
+    def jump(self):
+        keys = pygame.key.get_pressed()
+        global wait_time
+        if keys[pygame.K_SPACE] :
+            self.rect.y -= 90
+            wait_time = 10
+
     def gravity(self):
-        self.rect.y += 5
+        self.rect.y += 1
 
     def draw(self, screen):
         screen.blit(self.image[self.frame], (self.rect.x, self.rect.y))
@@ -56,6 +63,7 @@ class Pipe:
 
 bird = Bird(100, height // 2)
 pipe = Pipe(500, 0, 240, True)
+wait_time = 0
 
 while True:
     for event in pygame.event.get():
@@ -69,6 +77,11 @@ while True:
         ground_scroll = 0
     bird.update()
     bird.gravity()
+    print(wait_time)
+    if wait_time == 0:
+        bird.jump()
+    else:
+        wait_time -= 1
     bird.draw(screen)
     pipe.draw(screen)
     pygame.display.update()
