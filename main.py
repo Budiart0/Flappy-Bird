@@ -39,16 +39,23 @@ class Bird:
 
 class Pipe:
     def __init__(self, x, y, height, is_top):
-        self.image = pygame.image.load('pipe.png')
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+        self.image1 = pygame.transform.scale(pygame.image.load('pipe.png'), (80, height))
+        self.rect1 = self.image1.get_rect()
+        self.rect1.x = x
+        self.rect1.y = y + 360
+
+        self.image2 = pygame.transform.scale(pygame.transform.flip(self.image1, False, True), (80, height))
+        self.rect2 = self.image2.get_rect()
+        self.rect2.x = x
+        self.rect2.y = y
+
 
     def draw(self, screen):
-        screen.blit(self.image, (self.rect.x, self.rect.y))
+        screen.blit(self.image1, (self.rect1.x, self.rect1.y))
+        screen.blit(self.image2, (self.rect2.x, self.rect2.y))
 
 bird = Bird(100, height // 2)
-pipe = Pipe(500, 0, 300, True)
+pipe = Pipe(500, 0, 240, True)
 
 while True:
     for event in pygame.event.get():
